@@ -6,16 +6,20 @@ import { AppService } from './app.service';
 import { MiddlewareService } from './middleware/first/middleware.service';
 import { Cat } from './cat/cat';
 import { CatSchema } from '../schema/cat.schema';
+import {DogSchema} from '../schema/dog.schema'
 import { AppController } from './app.controller';
 import { UploadModule } from './upload/upload.module';
+import { DogModule } from './dog/dog.module';
+import { Dog } from '../schema/dog.schema';
 
 @Module({
   imports: [MongooseModule.forRoot('mongodb://localhost:27017/nest'),
-    MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
+    MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }, {name: Dog.name, schema : DogSchema}]),
     ConfigModule.forRoot(),
     CacheModule.register(),
     CatModule,
     UploadModule,
+    DogModule,
   ],
 
   controllers: [AppController],
