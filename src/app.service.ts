@@ -9,4 +9,5 @@ export class AppService {
     init(): object {
         return {name: 'thanh quy'}
     }
+
 }

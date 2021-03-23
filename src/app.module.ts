@@ -11,6 +11,8 @@ import { AppController } from './app.controller';
 import { UploadModule } from './upload/upload.module';
 import { DogModule } from './dog/dog.module';
 import { Dog } from '../schema/dog.schema';
+import { ValidateModule } from './validate/validate.module';
+import { OwnerModule } from './owner/owner.module';
 
 @Module({
   imports: [MongooseModule.forRoot('mongodb://localhost:27017/nest'),
@@ -20,6 +22,8 @@ import { Dog } from '../schema/dog.schema';
     CatModule,
     UploadModule,
     DogModule,
+    ValidateModule,
+    OwnerModule,
   ],
 
   controllers: [AppController],

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import {Body, Controller, Get, Param, ParseBoolPipe, Post} from '@nestjs/common'
 import { AppService } from './app.service'
 import { catService } from './cat/cat.service'
 import { Cat } from '../schema/cat.schema' //model Cat
@@ -17,6 +17,12 @@ export class AppController {
   @Get('/init')
   init(): object {
     return this.appService.init()
+  }
+
+  @Get(':/value')
+  validate(@Param('value', new ParseBoolPipe()) value : Boolean) : String {
+    if(!value) {return 'Value is false'}
+    else return 'Value is true'
   }
 
   // @Get('/cats/:id')
