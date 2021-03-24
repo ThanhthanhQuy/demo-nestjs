@@ -15,11 +15,6 @@ export class CatController {
 
   @Get('/set/cache')
   async setCache() : Promise<string> {
-    // let a = '';
-    // setTimeout(async () => {
-    //   a = await this.catService.setCache();
-    //   console.log(a);
-    // }, 2000);
      await this.catService.setCache();
      return 'Add Successfull'
   }
