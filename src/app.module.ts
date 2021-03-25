@@ -15,6 +15,9 @@ import { Dog } from '../schema/dog.schema';
 import { ValidateModule } from './validate/validate.module';
 import { OwnerModule } from './owner/owner.module';
 import { TaskScheduleModule } from './schedule/schedule.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { AuthService } from './auth/auth.service';
 
 
 @Module({
@@ -29,10 +32,12 @@ import { TaskScheduleModule } from './schedule/schedule.module';
     ValidateModule,
     OwnerModule,
     TaskScheduleModule,
+    AuthModule,
+    UserModule,
   ],
 
   controllers: [AppController],
-  providers: [AppService, MiddlewareService], // oblige to define in constructor controller
+  providers: [AppService, MiddlewareService, AuthService], // oblige to define in constructor controller
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {

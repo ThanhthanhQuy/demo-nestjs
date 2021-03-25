@@ -8,6 +8,7 @@ import { Owner, OwnerSchema } from '../../schema/owner.schema';
   imports: [MongooseModule.forFeature([{ name: Owner.name, schema: OwnerSchema }])],
   controllers: [OwnerController],
   providers: [OwnerService],
+  exports: [OwnerService]
 })
 export class OwnerModule {
 }

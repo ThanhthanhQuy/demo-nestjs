@@ -33,4 +33,14 @@ export class OwnerService {
       throw e;
     }
   }
+
+  async getOwnerByName(name: String): Promise<Owner> {
+    try {
+      const owner = await this.ownerModel.findOne({ firstName : name });
+      console.log(owner);
+      return owner;
+    } catch (e) {
+      throw e;
+    }
+  }
 }

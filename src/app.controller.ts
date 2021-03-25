@@ -1,43 +1,33 @@
-import {Body, Controller, Get, Param, ParseBoolPipe, Post} from '@nestjs/common'
-import { AppService } from './app.service'
-import { catService } from './cat/cat.service'
-import { Cat } from '../schema/cat.schema' //model Cat
-import { createCat } from '../dto/createCat.dto' //form upload
-// import { CatController } from './cat/cat.controller'
+import { Request, Controller, Get, Param, ParseBoolPipe, Post, Req, Body } from '@nestjs/common';
+import { AppService } from './app.service';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import {LocalAuthGuard} from './auth/local-auth.guard';
+import { AuthService } from './auth/auth.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {
-  }
-  @Get()
-  getHello(): string {
-    return this.appService.getHello()
+  constructor(private readonly appService: AppService, private readonly authService: AuthService) {
   }
 
-  @Get('/init')
+  @UseGuards(AuthGuard('local'))
+  @Post('/init')
   init(): object {
-    return this.appService.init()
+    return this.appService.init();
   }
 
-  @Get(':/value')
-  validate(@Param('value', new ParseBoolPipe()) value : Boolean) : String {
-    if(!value) {return 'Value is false'}
-    else return 'Value is true'
+  @UseGuards(LocalAuthGuard)
+  @Post('/login')
+  login(@Request() req) {
+    console.log(req.user);
+    return this.authService.login(req.user);
   }
 
-  // @Get('/cats/:id')
-  // async getCatById(@Param('id') id: String): Promise<Cat> {
-  //   return await this.catService.getCatsById(id)
-  // }
-  //
-  // @Get('/cats')
-  // async getCats(): Promise<Cat[]> {
-  //   return await this.catService.getAllCats()
-  // }
-  //
-  // @Post('/cats')
-  // async createCat(@Body() cat: createCat): Promise<Cat> {
-  //   return await this.catService.createNewCat(cat)
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Get('/login')
+  getAccess(@Request() req) {
+    return req.user
+  }
 
 }

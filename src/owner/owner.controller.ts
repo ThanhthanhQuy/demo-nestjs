@@ -1,8 +1,8 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { OwnerService } from './owner.service';
 import { newOwner } from '../../dto/owner';
 import { Owner } from '../../schema/owner.schema';
-import mongoose, { Schema, Types, ObjectId } from 'mongoose';
+import {Request, Response} from 'express';
 
 @Controller('owner')
 export class OwnerController {
@@ -19,9 +19,23 @@ export class OwnerController {
   //   return new newOwner({
   //   }
   // })
+  @Get('/cookie')
+  getCookie(@Req() request: Request) {
+    return request.cookies
+  }
+
+  @Post('/cookie')
+  setCookie(@Req() request: Request, @Res({ passthrough: true }) respond : Response) : string {
+    const today = new Date()
+    today.setTime(today.getTime() + 2*60*1000)
+
+    respond.cookie('user', 'Quy', {expires : today})
+    return request.cookies
+  }
 
   @Get('/:id')
   async findOne(@Param('id') id: String): Promise<Owner> {
     return await this.ownerService.getOwner(id)
   }
+
 }

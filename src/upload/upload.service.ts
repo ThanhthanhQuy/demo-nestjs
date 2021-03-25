@@ -5,15 +5,14 @@ import { fsReadFile } from 'ts-loader/dist/utils';
 @Injectable()
 export class UploadService {
   upload(file: Express.Multer.File): String {
-
-    if (file.mimetype === 'plain/text') {
+    if (file.mimetype === 'text/plain') {
       const content = file.buffer.toString('utf-8');
       return content;
-    }
-    if (file.mimetype === 'image/png') {
+    } else if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
       const content = file.buffer.toString('base64');
       return content;
+    } else {
+      return 'image';
     }
-    return 'image';
   }
 }
